@@ -14,6 +14,9 @@
 
 /* LOGO5 secure account + clinical workspace */
 .mode-card.selected{border-color:#66b8df;background:#eef9ff;box-shadow:0 0 0 2px #66b8df22}.cloud-banner{margin-bottom:12px}.cloud-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.cloud-head h3{font-size:24px;margin:9px 0 3px}.clinical-entry{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}.clinical-entry .box{display:grid;gap:8px}.clinical-entry input,.clinical-entry textarea{width:100%;border:1px solid var(--line);border-radius:13px;padding:10px;background:white}.clinical-entry textarea{min-height:66px;resize:vertical}.record-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.record{border-top:1px solid var(--line);padding:10px 0}.record:first-of-type{border-top:0}.record b{display:block}.record span{display:block;color:var(--mut);font-size:11px;font-weight:850;margin:3px 0}.record p{margin:5px 0 0;color:var(--mut);font-size:12px;line-height:1.45}@media(max-width:900px){.clinical-entry,.record-grid{grid-template-columns:1fr}.cloud-head{align-items:flex-start;flex-direction:column}}
+
+/* LOGO5 documents + progress */
+.progress-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.document-maker{display:grid;gap:10px;margin-bottom:12px}.doc-controls{display:grid;grid-template-columns:1.4fr 1.4fr auto;gap:8px}.doc-controls select,.doc-controls input,.doc-body{width:100%;border:1px solid var(--line);border-radius:13px;padding:11px;background:white}.doc-body{min-height:280px;resize:vertical;line-height:1.55}.doc-preview{margin-bottom:12px}.document-paper{white-space:pre-wrap;background:#fff;border:1px solid #e8e8e8;box-shadow:0 10px 35px #0000000a;border-radius:12px;padding:24px;line-height:1.6;max-height:500px;overflow:auto}@media(max-width:900px){.progress-cards{grid-template-columns:repeat(2,1fr)}.doc-controls{grid-template-columns:1fr}.doc-body{min-height:220px}}@media(max-width:480px){.progress-cards{grid-template-columns:1fr 1fr}}
 </style></head><body>
 <div class="app"><header class="top"><button class="brand" onclick="show('home')"><div class="logo">L5</div><div><b>Logo5</b><span>by SoulFlame · AI помощник за логопеди и родители</span></div></button><button class="burger" onclick="toggleMenu()">☰</button><nav class="menu" id="menu"><button data-nav="home" onclick="show('home')">⌂ Начало</button><button data-nav="auth" onclick="show('auth')">🔐 Защитен вход</button><button data-nav="assistant" onclick="show('assistant')">✨ AI помощник</button><button data-nav="workspace" onclick="show('workspace')">🧠 Терапевтичен център</button><button data-nav="code" onclick="show('code')">🔐 Вход с код</button><button data-nav="register" onclick="show('register')">＋ Записване</button><button data-nav="schedule" onclick="show('schedule')">📅 Запази час</button><button data-nav="chat" onclick="goChat()">✉ Пишете ми</button><button data-nav="library" onclick="show('library')">▣ Библиотека</button><button data-nav="profile" onclick="show('profile')">◈ Профил</button><button data-nav="about" onclick="show('about')">● За мен</button><button data-nav="admin" onclick="show('admin')">⚙ Админ</button></nav></header><main class="stage" id="stage">
 <section id="home" class="page on"><div class="hero"><div class="heroBox card"><span class="pill">✨ LOGO5 by SoulFlame</span><h1 class="h1">Една система за <span class="accent">логопед, родител и център</span>.</h1><p class="muted">Оценка → терапевтичен план → занятие → документи → измерим напредък. AI помага да се организира работата, но не поставя диагнози и не заменя специалист.</p><div class="actions"><button class="btn primary" onclick="show('workspace')">Аз съм логопед</button><button class="btn" onclick="show('register')">Аз съм родител</button><button class="btn" onclick="show('assistant')">Попитай AI помощника</button><button class="btn" onclick="show('about')">За Веска</button></div><div class="trust-row"><span>🔒 RLS защита</span><span>🇪🇺 EU data-ready</span><span>🧠 AI с човешко одобрение</span></div></div><div class="mock card mode-panel"><div class="row"><div class="avatar">L5</div><div><b>Изберете режим</b><div class="muted">Ясен интерфейс според ролята</div></div></div><div class="mode-grid"><button class="mode-card" onclick="show('workspace')"><b>🧑‍⚕️ Логопед</b><span>Досиета, оценки, планове, занятия, документи и напредък.</span></button><button class="mode-card" onclick="show('register')"><b>👨‍👩‍👧 Родител</b><span>Заявка за консултация, безопасни насоки и домашна подкрепа.</span></button><button class="mode-card" onclick="show('workspace')"><b>🏫 Център</b><span>Екип, графици, права, отчети и централизирана организация.</span></button></div><div class="ai-disclaimer">При внезапна загуба на говор или умения, задавяне, затруднено дишане/преглъщане, посиняване, гърчове или остри неврологични симптоми потърсете медицинска помощ.</div></div></div></section>
@@ -36,7 +39,7 @@ const db=window.supabase?.createClient('https://frhletkiuupgksmgxoxc.supabase.co
 const slotTimes=['09:00','10:00','11:00','12:00','14:00','15:00','16:00','17:00'];
 const initial=[];
 const state={leads:JSON.parse(localStorage.l5Leads||'null')||initial,deleted:JSON.parse(localStorage.l5Deleted||'null')||[],currentId:localStorage.l5CurrentId||'',role:localStorage.l5Role||'parent',selectedSlot:localStorage.l5SelectedSlot||'',chats:JSON.parse(localStorage.l5Chats||'null')||{},unread:JSON.parse(localStorage.l5Unread||'null')||{},files:JSON.parse(localStorage.l5Files||'null')||[]};
-const cloud={user:null,profile:null,children:[],currentChildId:localStorage.l5CloudChild||'',assessments:[],plans:[],sessions:[]};
+const cloud={user:null,profile:null,children:[],currentChildId:localStorage.l5CloudChild||'',assessments:[],plans:[],sessions:[],documents:[]};
 let currentPage='home',sx=0,sy=0,st=0,hintTimer=null,addChildParent=null;
 async function init(){
   normalize();
@@ -70,12 +73,12 @@ async function sendMagicLink(){
   authMessage('Изпратих защитена връзка. Отворете email-а си и натиснете magic link.',true);
 }
 function authMessage(t,ok=true){const el=$('authMsg');if(!el)return;el.style.display='block';el.textContent=t;el.style.color=ok?'#16844d':'#d74040';el.style.background=ok?'#effdf5':'#fff1f1';el.style.borderColor=ok?'#ccefdc':'#ffd0d0'}
-async function cloudLogout(){if(db)await db.auth.signOut();cloud.user=null;cloud.profile=null;cloud.children=[];cloud.currentChildId='';cloud.assessments=[];cloud.plans=[];cloud.sessions=[];localStorage.removeItem('l5CloudChild');renderAuth();renderCloudWorkspace();show('home')}
+async function cloudLogout(){if(db)await db.auth.signOut();cloud.user=null;cloud.profile=null;cloud.children=[];cloud.currentChildId='';cloud.assessments=[];cloud.plans=[];cloud.sessions=[];cloud.documents=[];localStorage.removeItem('l5CloudChild');renderAuth();renderCloudWorkspace();show('home')}
 async function refreshCloud(){
   if(!db){renderAuth();renderCloudWorkspace();return}
   const {data:{session}}=await db.auth.getSession();
   cloud.user=session?.user||null;
-  if(!cloud.user){cloud.profile=null;cloud.children=[];cloud.assessments=[];cloud.plans=[];cloud.sessions=[];renderAuth();renderCloudWorkspace();return}
+  if(!cloud.user){cloud.profile=null;cloud.children=[];cloud.assessments=[];cloud.plans=[];cloud.sessions=[];cloud.documents=[];renderAuth();renderCloudWorkspace();return}
   let {data:profile,error:profileError}=await db.from('logo5_profiles').select('id,role,full_name,phone').eq('id',cloud.user.id).maybeSingle();
   if(profileError)console.warn('LOGO5 profile:',profileError.message);
   if(!profile){
@@ -108,14 +111,15 @@ async function createCloudChild(e){
 }
 function selectCloudChild(id){if(!cloud.children.some(x=>x.id===id))return;cloud.currentChildId=id;localStorage.l5CloudChild=id;loadCloudClinical().then(()=>{renderAuth();renderCloudWorkspace()})}
 async function loadCloudClinical(){
-  if(!db||!cloud.user||!cloud.currentChildId){cloud.assessments=[];cloud.plans=[];cloud.sessions=[];return}
+  if(!db||!cloud.user||!cloud.currentChildId){cloud.assessments=[];cloud.plans=[];cloud.sessions=[];cloud.documents=[];return}
   const id=cloud.currentChildId;
-  const [a,p,se]=await Promise.all([
+  const [a,p,se,d]=await Promise.all([
     db.from('logo5_assessments').select('id,assessment_type,observations,strengths,needs,clinical_note,assessed_at,author_id').eq('child_id',id).order('assessed_at',{ascending:false}).limit(20),
     db.from('logo5_plans').select('id,title,goals,home_program,status,start_date,review_date,created_at,author_id').eq('child_id',id).order('created_at',{ascending:false}).limit(20),
-    db.from('logo5_sessions').select('id,starts_at,duration_minutes,activities,progress,parent_summary,status,created_at,therapist_id').eq('child_id',id).order('starts_at',{ascending:false}).limit(30)
+    db.from('logo5_sessions').select('id,starts_at,duration_minutes,activities,progress,parent_summary,status,created_at,therapist_id').eq('child_id',id).order('starts_at',{ascending:false}).limit(30),
+    db.from('logo5_documents').select('id,title,document_type,content,created_at,owner_id').eq('child_id',id).order('created_at',{ascending:false}).limit(30)
   ]);
-  cloud.assessments=a.data||[];cloud.plans=p.data||[];cloud.sessions=se.data||[];
+  cloud.assessments=a.data||[];cloud.plans=p.data||[];cloud.sessions=se.data||[];cloud.documents=d.data||[];
 }
 function renderAuth(){
   const signedOut=$('authSignedOut'),signedIn=$('authSignedIn');if(!signedOut||!signedIn)return;
@@ -136,12 +140,98 @@ function renderCloudWorkspace(){
   const child=cloudChild();
   if(!child){root.innerHTML='<div class="box cloud-banner"><i>🧒</i><h3>Няма избрано дете</h3><p>Роля: '+esc(cloud.profile?.role||'—')+'. Изберете или добавете разрешен детски профил.</p><div class="actions"><button class="btn primary" onclick="show(\'auth\')">Управление на профили</button></div></div>';return}
   const therapist=cloud.profile?.role==='therapist'||cloud.profile?.role==='admin';
+  const completed=cloud.sessions.filter(x=>x.status==='completed');
+  const percentages=completed.map(x=>Number(x.progress?.success_percent)).filter(Number.isFinite);
+  const avg=percentages.length?Math.round(percentages.reduce((a,b)=>a+b,0)/percentages.length):null;
+  const recent=percentages.slice(0,3),older=percentages.slice(3,6);
+  const recentAvg=recent.length?recent.reduce((a,b)=>a+b,0)/recent.length:null;
+  const olderAvg=older.length?older.reduce((a,b)=>a+b,0)/older.length:null;
+  const trend=recentAvg!==null&&olderAvg!==null?Math.round(recentAvg-olderAvg):null;
+
   const assessments=cloud.assessments.map(a=>'<div class="record"><b>📋 '+esc(a.assessment_type||'Оценка')+'</b><span>'+esc((a.assessed_at||'').slice(0,10))+'</span><p><strong>Силни страни:</strong> '+esc(a.strengths||'—')+'<br><strong>Нужди:</strong> '+esc(a.needs||'—')+'<br>'+esc(a.clinical_note||'')+'</p></div>').join('')||'<p class="muted">Няма оценки.</p>';
   const plans=cloud.plans.map(p=>'<div class="record"><b>🎯 '+esc(p.title)+'</b><span>'+esc(p.status||'')+'</span><p>'+esc(formatGoals(p.goals))+'</p></div>').join('')||'<p class="muted">Няма терапевтични планове.</p>';
-  const sessions=cloud.sessions.map(x=>'<div class="record"><b>🧩 '+esc((x.starts_at||'').replace('T',' ').slice(0,16))+'</b><span>'+esc(x.status||'')+'</span><p>'+esc(x.parent_summary||'Без резюме')+'</p></div>').join('')||'<p class="muted">Няма сесии.</p>';
-  root.innerHTML='<div class="box cloud-head"><div><span class="pill">🔒 Защитено досие</span><h3>'+esc(child.first_name)+'</h3><p>'+esc(child.school||'')+' · '+esc(child.status||'active')+'</p></div><button class="btn" onclick="show(\'auth\')">Смени дете</button></div>'+
-  (therapist?'<div class="clinical-entry"><div class="box"><h3>📋 Нова оценка</h3><textarea id="cwObs" placeholder="Наблюдения"></textarea><input id="cwStrengths" placeholder="Силни страни"><input id="cwNeeds" placeholder="Нужди"><textarea id="cwClinical" placeholder="Клинична бележка"></textarea><button class="btn primary" onclick="saveCloudAssessment()">Запази оценка</button></div><div class="box"><h3>🎯 Нов план</h3><input id="cwPlanTitle" placeholder="Заглавие на плана"><textarea id="cwGoals" placeholder="Измерими цели — по една на ред"></textarea><textarea id="cwHome" placeholder="Домашна програма — по една дейност на ред"></textarea><input id="cwReview" type="date"><button class="btn primary" onclick="saveCloudPlan()">Запази план</button></div><div class="box"><h3>🧩 Нова сесия</h3><input id="cwSessionDate" type="datetime-local"><input id="cwDuration" type="number" min="10" max="120" value="40"><textarea id="cwActivities" placeholder="Дейности — по една на ред"></textarea><input id="cwSuccess" type="number" min="0" max="100" placeholder="Успешни опити %"><textarea id="cwParentSummary" placeholder="Резюме за родителя"></textarea><button class="btn primary" onclick="saveCloudSession()">Запази сесия</button></div></div>':'<div class="ai-disclaimer">Родителски режим: клиничните записи са само за преглед. Създаването и редакцията се извършват от назначения логопед.</div>')+
-  '<div id="cloudToast" class="notice" style="display:none"></div><div class="record-grid"><div class="box"><h3>Оценки</h3>'+assessments+'</div><div class="box"><h3>Планове</h3>'+plans+'</div><div class="box"><h3>Сесии</h3>'+sessions+'</div></div>';
+  const sessions=cloud.sessions.map(x=>'<div class="record"><b>🧩 '+esc((x.starts_at||'').replace('T',' ').slice(0,16))+'</b><span>'+esc(x.status||'')+(Number.isFinite(Number(x.progress?.success_percent))?' · '+esc(x.progress.success_percent)+'%':'')+'</span><p>'+esc(x.parent_summary||'Без резюме')+'</p></div>').join('')||'<p class="muted">Няма сесии.</p>';
+  const documents=cloud.documents.map(d=>'<div class="record"><b>📄 '+esc(d.title)+'</b><span>'+esc(d.document_type)+' · '+esc((d.created_at||'').slice(0,10))+'</span><p>'+esc((d.content?.body||'').slice(0,180))+(String(d.content?.body||'').length>180?'…':'')+'</p><div class="actions"><button class="btn" onclick="openCloudDocument(\''+d.id+'\')">Отвори</button><button class="btn" onclick="exportCloudDocument(\''+d.id+'\',\'word\')">Word</button><button class="btn" onclick="exportCloudDocument(\''+d.id+'\',\'print\')">PDF/Печат</button></div></div>').join('')||'<p class="muted">Няма документи.</p>';
+
+  root.innerHTML=
+  '<div class="box cloud-head"><div><span class="pill">🔒 Защитено досие</span><h3>'+esc(child.first_name)+'</h3><p>'+esc(child.school||'')+' · '+esc(child.status||'active')+'</p></div><button class="btn" onclick="show(\'auth\')">Смени дете</button></div>'+
+  '<div class="progress-cards"><div class="stat"><b>'+completed.length+'</b><span>проведени сесии</span></div><div class="stat"><b>'+(avg===null?'—':avg+'%')+'</b><span>среден успех</span></div><div class="stat"><b>'+(trend===null?'—':(trend>0?'+':'')+trend+'%')+'</b><span>тенденция</span></div><div class="stat"><b>'+cloud.plans.length+'</b><span>терапевтични планове</span></div></div>'+
+  (therapist?'<div class="clinical-entry"><div class="box"><h3>📋 Нова оценка</h3><textarea id="cwObs" placeholder="Наблюдения"></textarea><input id="cwStrengths" placeholder="Силни страни"><input id="cwNeeds" placeholder="Нужди"><textarea id="cwClinical" placeholder="Клинична бележка"></textarea><button class="btn primary" onclick="saveCloudAssessment()">Запази оценка</button></div><div class="box"><h3>🎯 Нов план</h3><input id="cwPlanTitle" placeholder="Заглавие на плана"><textarea id="cwGoals" placeholder="Измерими цели — по една на ред"></textarea><textarea id="cwHome" placeholder="Домашна програма — по една дейност на ред"></textarea><input id="cwReview" type="date"><button class="btn primary" onclick="saveCloudPlan()">Запази план</button></div><div class="box"><h3>🧩 Нова сесия</h3><input id="cwSessionDate" type="datetime-local"><input id="cwDuration" type="number" min="10" max="120" value="40"><textarea id="cwActivities" placeholder="Дейности — по една на ред"></textarea><input id="cwSuccess" type="number" min="0" max="100" placeholder="Успешни опити %"><textarea id="cwParentSummary" placeholder="Резюме за родителя"></textarea><button class="btn primary" onclick="saveCloudSession()">Запази сесия</button></div></div><div class="box document-maker"><h3>📄 Генератор на професионални документи</h3><p>LOGO5 подготвя чернова от наличните данни. Логопедът редактира, одобрява и подписва.</p><div class="doc-controls"><select id="cwDocType" onchange="prepareDocumentDraft()"><option value="initial_assessment">Първоначално логопедично обследване</option><option value="therapy_plan">Индивидуален терапевтичен план</option><option value="session_protocol">Протокол от занятие</option><option value="progress_report">Отчет за напредъка</option><option value="parent_recommendations">Препоръки към родители</option><option value="home_program">Домашна програма</option><option value="school_report">Доклад за училище / детска градина</option><option value="referral">Направление към друг специалист</option><option value="speech_statement">Логопедично становище</option><option value="monthly_plan">Месечен план</option></select><input id="cwDocTitle" placeholder="Заглавие"><button class="btn" onclick="prepareDocumentDraft()">Създай чернова</button></div><textarea id="cwDocBody" class="doc-body" placeholder="Черновата ще се появи тук."></textarea><div class="ai-disclaimer">AI/автоматична чернова — изисква проверка и одобрение от логопед преди подписване или изпращане.</div><div class="actions"><button class="btn primary" onclick="saveCloudDocument()">Запази документ</button><button class="btn" onclick="exportDraft(\'word\')">Word</button><button class="btn" onclick="exportDraft(\'print\')">PDF / Печат</button></div></div>':'<div class="ai-disclaimer">Родителски режим: клиничните записи и документи са само за преглед. Създаването и редакцията се извършват от назначения логопед.</div>')+
+  '<div id="cloudToast" class="notice" style="display:none"></div><div class="record-grid"><div class="box"><h3>Оценки</h3>'+assessments+'</div><div class="box"><h3>Планове</h3>'+plans+'</div><div class="box"><h3>Сесии</h3>'+sessions+'</div></div><div class="box"><h3>Документи</h3>'+documents+'</div>';
+}
+
+function documentLabel(type){
+  return {
+    initial_assessment:'Първоначално логопедично обследване',
+    therapy_plan:'Индивидуален терапевтичен план',
+    session_protocol:'Протокол от проведено занятие',
+    progress_report:'Отчет за напредъка',
+    parent_recommendations:'Препоръки към родители',
+    home_program:'Домашна програма',
+    school_report:'Доклад за училище / детска градина',
+    referral:'Направление към друг специалист',
+    speech_statement:'Логопедично становище',
+    monthly_plan:'Месечен план'
+  }[type]||'Логопедичен документ';
+}
+function latestAssessment(){return cloud.assessments[0]||null}
+function latestPlan(){return cloud.plans[0]||null}
+function latestSession(){return cloud.sessions[0]||null}
+function prepareDocumentDraft(){
+  const child=cloudChild();if(!child)return;
+  const type=$('cwDocType')?.value||'initial_assessment';
+  const a=latestAssessment(),p=latestPlan(),se=latestSession();
+  const label=documentLabel(type);
+  if($('cwDocTitle'))$('cwDocTitle').value=label+' — '+child.first_name;
+  const goals=p?formatGoals(p.goals):'Няма въведен терапевтичен план.';
+  const home=p?formatGoals(p.home_program):'Няма въведена домашна програма.';
+  const progress=cloud.sessions.filter(x=>Number.isFinite(Number(x.progress?.success_percent))).map(x=>Number(x.progress.success_percent));
+  const avg=progress.length?Math.round(progress.reduce((x,y)=>x+y,0)/progress.length):null;
+  let body='';
+  if(type==='initial_assessment')body='ДЕТЕ: '+child.first_name+'\nДата на раждане: '+(child.birth_date||'не е въведена')+'\nДГ/училище: '+(child.school||'не е въведено')+'\n\nНАБЛЮДЕНИЯ\n'+(a?.observations?.summary||'Добавете наблюдения.')+'\n\nСИЛНИ СТРАНИ\n'+(a?.strengths||'—')+'\n\nОБЛАСТИ ЗА ПОДКРЕПА\n'+(a?.needs||'—')+'\n\nКЛИНИЧНА БЕЛЕЖКА\n'+(a?.clinical_note||'—')+'\n\nЗаключението следва да бъде проверено и подписано от логопед.';
+  else if(type==='therapy_plan')body='ДЕТЕ: '+child.first_name+'\n\nОСНОВНИ ЦЕЛИ\n'+goals+'\n\nДОМАШНА ПРОГРАМА\n'+home+'\n\nНачало: '+(p?.start_date||new Date().toISOString().slice(0,10))+'\nПреоценка: '+(p?.review_date||'за определяне')+'\n\nПланът е професионална чернова и подлежи на редакция от логопед.';
+  else if(type==='session_protocol')body='ДЕТЕ: '+child.first_name+'\nДата/час: '+((se?.starts_at||new Date().toISOString()).replace('T',' ').slice(0,16))+'\nПродължителност: '+(se?.duration_minutes||40)+' мин.\n\nДЕЙНОСТИ\n'+formatGoals(se?.activities||[])+'\n\nРЕЗУЛТАТ\n'+(se?.progress?.success_percent!==undefined?se.progress.success_percent+'% успешни опити':'не е въведен процент')+'\n\nРЕЗЮМЕ\n'+(se?.parent_summary||'—');
+  else if(type==='progress_report')body='ДЕТЕ: '+child.first_name+'\nПериод: до '+new Date().toISOString().slice(0,10)+'\n\nПроведени сесии: '+cloud.sessions.filter(x=>x.status==='completed').length+'\nСреден измерен успех: '+(avg===null?'няма достатъчно данни':avg+'%')+'\n\nАКТИВНИ ЦЕЛИ\n'+goals+'\n\nПОСЛЕДНО РЕЗЮМЕ\n'+(se?.parent_summary||'—')+'\n\nПрепоръчва се преоценка на целите според натрупаните измервания.';
+  else if(type==='parent_recommendations')body='ПРЕПОРЪКИ ЗА '+child.first_name+'\n\n1. Работете кратко и регулярно без натиск.\n2. Следвайте конкретните цели, зададени от логопеда.\n3. Моделирайте правилната форма спокойно, без критика.\n4. Отбелязвайте трудностите и успешните ситуации.\n\nТекущи цели:\n'+goals+'\n\nДомашна програма:\n'+home;
+  else if(type==='home_program')body='ДОМАШНА ПРОГРАМА — '+child.first_name+'\n\n'+home+'\n\nПрепоръчителен режим: кратки занимания според указанията на логопеда. При болка, задавяне или силен дискомфорт прекратете упражнението и потърсете професионална оценка.';
+  else if(type==='school_report')body='ДОКЛАД ЗА '+child.first_name+'\nДГ/училище: '+(child.school||'—')+'\n\nСИЛНИ СТРАНИ\n'+(a?.strengths||'—')+'\n\nОБЛАСТИ ЗА ПОДКРЕПА\n'+(a?.needs||'—')+'\n\nТЕКУЩИ ЦЕЛИ\n'+goals+'\n\nПРЕПОРЪКИ КЪМ ЕКИПА\nОсигуряване на достатъчно време за отговор, ясни инструкции и съгласуван подход с логопеда и семейството.';
+  else if(type==='referral')body='НАПРАВЛЕНИЕ / ПРЕПОРЪКА ЗА КОНСУЛТАЦИЯ\n\nДете: '+child.first_name+'\nПричина за насочване: '+(a?.needs||'Добавете конкретната причина.')+'\n\nНаблюдения:\n'+(a?.observations?.summary||'—')+'\n\nКъм специалист: [УНГ / аудиолог / педиатър / невролог / психолог / ортодонт / друг]\n\nТова направление не представлява медицинска диагноза.';
+  else if(type==='speech_statement')body='ЛОГОПЕДИЧНО СТАНОВИЩЕ\n\nДете: '+child.first_name+'\n\nНаблюдения:\n'+(a?.observations?.summary||'—')+'\n\nСилни страни:\n'+(a?.strengths||'—')+'\n\nПотребности:\n'+(a?.needs||'—')+'\n\nТерапевтични цели:\n'+goals+'\n\nОкончателният текст следва да бъде прегледан и подписан от квалифициран логопед.';
+  else body='МЕСЕЧЕН ПЛАН — '+child.first_name+'\n\nОсновни цели:\n'+goals+'\n\nДомашна програма:\n'+home+'\n\nПланирани направления на работа:\n1. Подготовка и актуализация на целите.\n2. Структурирани терапевтични занятия.\n3. Проследяване на измерими резултати.\n4. Обратна връзка към родителя.\n5. Месечен преглед на напредъка.';
+  if($('cwDocBody'))$('cwDocBody').value=body;
+}
+async function saveCloudDocument(){
+  const child=cloudChild();if(!child||!cloud.user)return;
+  const title=($('cwDocTitle')?.value||'').trim(),body=($('cwDocBody')?.value||'').trim(),document_type=$('cwDocType')?.value||'note';
+  if(!title||!body)return cloudNotice('Създайте и прегледайте черновата преди запис.',false);
+  const {error}=await db.from('logo5_documents').insert({child_id:child.id,owner_id:cloud.user.id,title,document_type,content:{body,review_required:true,generated_at:new Date().toISOString()}});
+  if(error)return cloudNotice(error.message,false);
+  await loadCloudClinical();renderCloudWorkspace();cloudNotice('Документът е записан като чернова.',true);
+}
+function openCloudDocument(id){
+  const d=cloud.documents.find(x=>x.id===id);if(!d)return;
+  const root=$('cloudWorkspace');if(!root)return;
+  const body=esc(d.content?.body||'').replace(/\n/g,'<br>');
+  root.insertAdjacentHTML('afterbegin','<div class="box doc-preview"><div class="cloud-head"><div><span class="pill">📄 Документ</span><h3>'+esc(d.title)+'</h3></div><button class="btn" onclick="renderCloudWorkspace()">Затвори</button></div><div class="document-paper">'+body+'</div><div class="actions"><button class="btn" onclick="exportCloudDocument(\''+d.id+'\',\'word\')">Word</button><button class="btn primary" onclick="exportCloudDocument(\''+d.id+'\',\'print\')">PDF / Печат</button></div></div>');
+}
+function safeFilename(s){return String(s||'document').normalize('NFKD').replace(/[^\w\u0400-\u04FF-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,80)||'document'}
+function wordHtml(title,body){return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>'+esc(title)+'</title><style>body{font-family:Arial,sans-serif;line-height:1.55;margin:45px;color:#111}h1{font-size:22px}.note{font-size:10px;color:#666;margin-top:30px}</style></head><body><h1>'+esc(title)+'</h1><div>'+esc(body).replace(/\n/g,'<br>')+'</div><div class="note">LOGO5 чернова — проверка и подпис от логопед са задължителни.</div></body></html>'}
+function downloadWord(title,body){
+  const blob=new Blob(['\ufeff',wordHtml(title,body)],{type:'application/msword'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=safeFilename(title)+'.doc';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+function printDocument(title,body){
+  const w=window.open('','_blank','noopener,noreferrer');if(!w)return cloudNotice('Браузърът блокира прозореца за печат.',false);
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>'+esc(title)+'</title><style>body{font-family:Arial,sans-serif;line-height:1.55;max-width:850px;margin:40px auto;padding:0 24px;color:#111}h1{font-size:24px;border-bottom:1px solid #ddd;padding-bottom:12px}.note{font-size:11px;color:#666;margin-top:35px;border-top:1px solid #ddd;padding-top:10px}@media print{body{margin:18mm auto}.no-print{display:none}}</style></head><body><h1>'+esc(title)+'</h1><div>'+esc(body).replace(/\n/g,'<br>')+'</div><div class="note">LOGO5 чернова — проверка и подпис от логопед са задължителни.</div><script>window.onload=()=>window.print()<\/script></body></html>');w.document.close();
+}
+function exportDraft(mode){
+  const title=($('cwDocTitle')?.value||documentLabel($('cwDocType')?.value)).trim(),body=($('cwDocBody')?.value||'').trim();
+  if(!body)return cloudNotice('Първо създайте чернова.',false);
+  if(mode==='word')downloadWord(title,body);else printDocument(title,body);
+}
+function exportCloudDocument(id,mode){
+  const d=cloud.documents.find(x=>x.id===id);if(!d)return;
+  if(mode==='word')downloadWord(d.title,d.content?.body||'');else printDocument(d.title,d.content?.body||'');
 }
 function cloudNotice(t,ok=true){const el=$('cloudToast');if(!el)return;el.style.display='block';el.textContent=t;el.style.color=ok?'#16844d':'#d74040';el.style.background=ok?'#effdf5':'#fff1f1';el.style.borderColor=ok?'#ccefdc':'#ffd0d0'}
 function lines(id){return ($(id)?.value||'').split(/\n+/).map(x=>x.trim()).filter(Boolean)}
